@@ -1,0 +1,1 @@
+Spring Batch for importing a csv with gym workouts to a mongo collection
