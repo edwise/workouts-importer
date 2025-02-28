@@ -1,0 +1,10 @@
+spring:
+  batch:
+    job:
+      enabled: true
+logging:
+  level:
+    root: INFO
+    com.edwise.batch: DEBUG
+workout-config:
+  fileName: "workout-data.csv"
