@@ -33,9 +33,6 @@ public class BatchConfiguration {
     @Value("${workout-config.fileName}")
     private String workoutFileName;
 
-    @Value("${workout-config.workoutsCollection}")
-    private String workoutsCollection;
-
     @Bean
     public FlatFileItemReader<Workout> reader() {
         return new FlatFileItemReaderBuilder<Workout>()
@@ -66,7 +63,6 @@ public class BatchConfiguration {
     public ItemWriter<Workout> writer(MongoTemplate mongoTemplate) {
         return new MongoItemWriterBuilder<Workout>()
                 .template(mongoTemplate)
-                .collection(workoutsCollection)
                 .build();
     }
 

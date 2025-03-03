@@ -11,4 +11,3 @@ logging:
     com.edwise.batch: DEBUG
 workout-config:
   fileName: "workout-data.csv"
-  workoutsCollection: "workouts"
