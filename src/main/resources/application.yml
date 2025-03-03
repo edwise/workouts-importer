@@ -2,9 +2,13 @@ spring:
   batch:
     job:
       enabled: true
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/gym_tracker
 logging:
   level:
     root: INFO
     com.edwise.batch: DEBUG
 workout-config:
   fileName: "workout-data.csv"
+  workoutsCollection: "workouts"
