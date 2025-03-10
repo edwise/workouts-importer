@@ -59,7 +59,12 @@ class WorkoutsImporterApplicationTests {
         JobExecution jobExecution = jobLauncherTestUtils.launchJob();
         assertThat(jobExecution.getExitStatus()).isEqualTo(ExitStatus.COMPLETED);
 
+        assertThatWorkoutsAreInTheDB();
+    }
+
+    private void assertThatWorkoutsAreInTheDB() {
         List<Workout> workouts = mongoTemplate.findAll(Workout.class);
+
         assertThat(workouts)
                 .isNotEmpty()
                 .hasSize(6);
