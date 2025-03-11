@@ -9,7 +9,6 @@ import org.springframework.batch.core.Step;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
-import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.data.builder.MongoItemWriterBuilder;
 import org.springframework.batch.item.file.FlatFileItemReader;
@@ -52,14 +51,6 @@ public class BatchConfiguration {
     }
 
     @Bean
-    public ItemProcessor<Workout, Workout> processor() {
-        return workout -> {
-            log.info("Processing workout: {}", workout);
-            return workout;
-        };
-    }
-
-    @Bean
     public ItemWriter<Workout> writer(MongoTemplate mongoTemplate) {
         return new MongoItemWriterBuilder<Workout>()
                 .template(mongoTemplate)
@@ -78,7 +69,7 @@ public class BatchConfiguration {
     public Step step1(JobRepository jobRepository,
                       PlatformTransactionManager transactionManager,
                       FlatFileItemReader<Workout> reader,
-                      ItemProcessor<Workout, Workout> processor,
+                      WorkoutItemProcessor processor,
                       ItemWriter<Workout> writer) {
         return new StepBuilder("step1", jobRepository)
                 .<Workout, Workout>chunk(5, transactionManager)
