@@ -25,9 +25,10 @@ public class WorkoutItemProcessor implements ItemProcessor<Workout, Workout> {
 
     @Override
     public Workout process(Workout workout) {
-        if (lastEndTime != null && workout.getEndTime().isBefore(lastEndTime)) {
+        if (lastEndTime != null && (workout.getEndTime().isBefore(lastEndTime) || workout.getEndTime().isEqual(lastEndTime))) {
             return null;
         }
+        log.info("Workout to insert: {}", workout);
         return workout;
     }
 }
