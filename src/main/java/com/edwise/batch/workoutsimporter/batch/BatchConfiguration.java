@@ -1,6 +1,6 @@
 package com.edwise.batch.workoutsimporter.batch;
 
-import com.edwise.batch.workoutsimporter.listener.JobCompletionNotificationListener;
+import com.edwise.batch.workoutsimporter.batch.listener.JobCompletionNotificationListener;
 import com.edwise.batch.workoutsimporter.model.Workout;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;

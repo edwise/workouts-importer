@@ -1,4 +1,4 @@
-package com.edwise.batch.workoutsimporter.listener;
+package com.edwise.batch.workoutsimporter.batch.listener;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
