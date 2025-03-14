@@ -45,7 +45,7 @@ public class BatchConfiguration {
                 }})
                 .linesToSkip(1)
                 .delimited()
-                .names(Workout.FIELDS)
+                .names(Workout.CSV_FIELDS)
                 .build();
     }
 
