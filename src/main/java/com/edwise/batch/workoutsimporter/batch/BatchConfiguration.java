@@ -19,11 +19,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 
 @Configuration
 public class BatchConfiguration {
@@ -58,12 +61,15 @@ public class BatchConfiguration {
     }
 
     private Resource[] loadWorkoutFiles() {
+        ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+        Resource[] resources;
         try {
-            return new PathMatchingResourcePatternResolver()
-                    .getResources("classpath:" + workoutFileNamePattern);
+            resources = resolver.getResources("classpath:" + workoutFileNamePattern);
+            Arrays.sort(resources, Comparator.comparing(Resource::getFilename));
         } catch (IOException e) {
             throw new RuntimeException("Error loading CSV files", e);
         }
+        return resources;
     }
 
     @Bean
