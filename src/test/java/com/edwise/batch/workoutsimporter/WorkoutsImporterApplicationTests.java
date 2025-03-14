@@ -1,5 +1,6 @@
 package com.edwise.batch.workoutsimporter;
 
+import com.edwise.batch.workoutsimporter.helper.WorkoutIdGenerator;
 import com.edwise.batch.workoutsimporter.model.Workout;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -12,6 +13,7 @@ import org.springframework.batch.test.JobLauncherTestUtils;
 import org.springframework.batch.test.JobRepositoryTestUtils;
 import org.springframework.batch.test.context.SpringBatchTest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.ExitCodeGenerator;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.annotation.DirtiesContext;
@@ -45,7 +47,9 @@ class WorkoutsImporterApplicationTests {
     private Job workoutsImporterJob;
 
     @Autowired
-    private MongoTemplate mongoTemplate;
+    private MongoTemplate     mongoTemplate;
+    @Autowired
+    private ExitCodeGenerator exitCodeGenerator;
 
     @DynamicPropertySource
     static void setProperties(DynamicPropertyRegistry registry) {
@@ -77,33 +81,26 @@ class WorkoutsImporterApplicationTests {
     }
 
     @Test
-    void givenDBHasExistingWorkouts_whenLaunchJob_ShouldImportOnlyNewWorkouts() throws Exception {
-        LocalDateTime lastEndTime = LocalDateTime.of(2025, 2, 23, 9, 0);
-        Workout existingWorkout = createWorkout(lastEndTime);
-        mongoTemplate.save(existingWorkout);
+    void givenDBHasRepeatedWorkout_whenLaunchJob_ShouldImportOnlyNewWorkouts() throws Exception {
+        Workout repeatedWorkout = createRepeatedWorkout();
+        mongoTemplate.save(repeatedWorkout);
 
         JobExecution jobExecution = jobLauncherTestUtils.launchJob();
 
         assertThat(jobExecution.getExitStatus()).isEqualTo(ExitStatus.COMPLETED);
-        assertThatWorkoutsAreInTheDB(5);
+        assertThatWorkoutsAreInTheDB(6);
     }
 
     @Test
-    void givenDBHasExistingWorkoutsAndAllCsvWorkoutsAreOlder_whenLaunchJob_ShouldNotImportAnyWorkout()
+    void givenDBHasNotRepeatedWorkouts_whenLaunchJob_ShouldImportAllWorkout()
             throws Exception {
-        LocalDateTime intermediateEndTime = LocalDateTime.of(2025, 3, 15, 8, 59);
-        Workout existingWorkout = createWorkout(intermediateEndTime);
-        mongoTemplate.save(existingWorkout);
+        Workout notRepeatedWorkout = createNotRepeatedWorkout();
+        mongoTemplate.save(notRepeatedWorkout);
 
         JobExecution jobExecution = jobLauncherTestUtils.launchJob();
 
         assertThat(jobExecution.getExitStatus()).isEqualTo(ExitStatus.COMPLETED);
-        List<Workout> workouts = mongoTemplate.findAll(Workout.class);
-        assertThat(workouts)
-                .hasSize(1)
-                .first()
-                .extracting(Workout::getTitle)
-                .isEqualTo("Existing workout");
+        assertThatWorkoutsAreInTheDB(7);
     }
 
 
@@ -122,11 +119,25 @@ class WorkoutsImporterApplicationTests {
                 });
     }
 
-    private Workout createWorkout(LocalDateTime lastEndTime) {
-        Workout existingWorkout = new Workout();
-        existingWorkout.setTitle("Existing workout");
-        existingWorkout.setStartTime(lastEndTime);
-        existingWorkout.setEndTime(lastEndTime);
-        return existingWorkout;
+    private Workout createRepeatedWorkout() {
+        Workout workout = new Workout();
+        workout.setTitle("Repeated workout");
+        workout.setStartTime(LocalDateTime.of(2025, 2, 22, 8, 19));
+        workout.setEndTime(LocalDateTime.of(2025, 2, 22, 9, 6));
+        workout.setExerciseTitle("Shoulder Press (Dumbbell)");
+        workout.setSetIndex(0);
+        workout.setGenId(WorkoutIdGenerator.generateWorkoutId(workout));
+        return workout;
+    }
+
+    private Workout createNotRepeatedWorkout() {
+        Workout workout = new Workout();
+        workout.setTitle("Not Repeated workout");
+        workout.setStartTime(LocalDateTime.of(2025, 2, 23, 8, 12));
+        workout.setEndTime(LocalDateTime.of(2025, 2, 23, 9, 2));
+        workout.setExerciseTitle("Exercise 1234");
+        workout.setSetIndex(3);
+        workout.setGenId(WorkoutIdGenerator.generateWorkoutId(workout));
+        return workout;
     }
 }

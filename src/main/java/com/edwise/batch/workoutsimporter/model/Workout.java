@@ -20,6 +20,7 @@ public class Workout implements ResourceAware {
     public static final String[] CSV_FIELDS = {"title", "startTime", "endTime", "description", "exerciseTitle",
             "superSetId", "exerciseNotes", "setIndex", "setType", "weightKg", "reps", "distanceKm", "durationSeconds", "rpe"};
 
+    private String        genId;
     private String        title;
     private LocalDateTime startTime;
     private LocalDateTime endTime;

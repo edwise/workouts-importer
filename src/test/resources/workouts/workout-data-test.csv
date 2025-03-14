@@ -1,7 +1,7 @@
 "title","start_time","end_time","description","exercise_title","superset_id","exercise_notes","set_index","set_type","weight_kg","reps","distance_km","duration_seconds","rpe"
 "Rutina Test","21 Feb 2025, 07:17","21 Feb 2025, 08:06","","Bench Press (Barbell)",,"",0,"normal",40,10,,,
 "Rutina Test","21 Feb 2025, 07:17","21 Feb 2025, 08:06","","Bench Press (Barbell)",,"",1,"normal",40,9,,,
-"Rutina Test2","22 Feb 2025, 08:19","25 Feb 2025, 09:06","","Bench Press (Barbell)",,"",2,"normal",40,8,,,
-"Rutina Test2","22 Feb 2025, 08:19","25 Feb 2025, 09:06","","Shoulder Press (Dumbbell)",,"",0,"normal",12.5,10,,,
-"Rutina Test2","22 Feb 2025, 08:19","25 Feb 2025, 09:06","","Shoulder Press (Dumbbell)",,"",1,"normal",12.5,9,,,
-"Rutina Test2","22 Feb 2025, 08:19","25 Feb 2025, 09:06","","Lateral Raise (Dumbbell)",,"",0,"normal",7.5,10,,,
+"Rutina Test2","22 Feb 2025, 08:19","22 Feb 2025, 09:06","","Bench Press (Barbell)",,"",2,"normal",40,8,,,
+"Rutina Test2","22 Feb 2025, 08:19","22 Feb 2025, 09:06","","Shoulder Press (Dumbbell)",,"",0,"normal",12.5,10,,,
+"Rutina Test2","22 Feb 2025, 08:19","22 Feb 2025, 09:06","","Shoulder Press (Dumbbell)",,"",1,"normal",12.5,9,,,
+"Rutina Test2","22 Feb 2025, 08:19","22 Feb 2025, 09:06","","Lateral Raise (Dumbbell)",,"",0,"normal",7.5,10,,,

@@ -7,8 +7,8 @@ import org.springframework.batch.core.Step;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
+import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemWriter;
-import org.springframework.batch.item.data.builder.MongoItemWriterBuilder;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.MultiResourceItemReader;
 import org.springframework.batch.item.file.builder.FlatFileItemReaderBuilder;
@@ -19,7 +19,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import java.io.IOException;
@@ -68,13 +67,6 @@ public class BatchConfiguration {
     }
 
     @Bean
-    public ItemWriter<Workout> writer(MongoTemplate mongoTemplate) {
-        return new MongoItemWriterBuilder<Workout>()
-                .template(mongoTemplate)
-                .build();
-    }
-
-    @Bean
     public Job importJob(JobRepository jobRepository, Step step1, JobCompletionNotificationListener listener) {
         return new JobBuilder("importWorkoutsJob", jobRepository)
                 .listener(listener)
@@ -86,7 +78,7 @@ public class BatchConfiguration {
     public Step step1(JobRepository jobRepository,
                       PlatformTransactionManager transactionManager,
                       MultiResourceItemReader<Workout> reader,
-                      WorkoutItemProcessor processor,
+                      ItemProcessor<Workout, Workout> processor,
                       ItemWriter<Workout> writer) {
         return new StepBuilder("step1", jobRepository)
                 .<Workout, Workout>chunk(5, transactionManager)
