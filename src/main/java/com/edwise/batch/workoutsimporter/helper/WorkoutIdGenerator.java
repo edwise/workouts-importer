@@ -5,7 +5,7 @@ import com.edwise.batch.workoutsimporter.model.Workout;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.HexFormat;
+import java.util.Base64;
 
 public class WorkoutIdGenerator {
 
@@ -26,7 +26,7 @@ public class WorkoutIdGenerator {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] hash = digest.digest(data.getBytes(StandardCharsets.UTF_8));
-            return HexFormat.of().formatHex(hash);
+            return Base64.getUrlEncoder().withoutPadding().encodeToString(hash);
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException("Error generating hash", e);
         }
