@@ -64,7 +64,7 @@ public class BatchConfiguration {
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         Resource[] resources;
         try {
-            resources = resolver.getResources("classpath:" + workoutFileNamePattern);
+            resources = resolver.getResources(workoutFileNamePattern);
             Arrays.sort(resources, Comparator.comparing(Resource::getFilename));
         } catch (IOException e) {
             throw new RuntimeException("Error loading CSV files", e);

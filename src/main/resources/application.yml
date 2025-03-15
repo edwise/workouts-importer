@@ -10,4 +10,4 @@ logging:
     root: INFO
     com.edwise.batch: DEBUG
 workout-config:
-  fileNamePattern: "/workouts/*.csv"
+  fileNamePattern: "classpath:/workouts/*.csv"
