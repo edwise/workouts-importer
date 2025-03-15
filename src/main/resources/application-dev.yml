@@ -1,7 +1,8 @@
 spring:
-  batch:
-    job:
-      enabled: false
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/dev_gym_tracker
+      auto-index-creation: true
 logging:
   level:
     root: INFO
