@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.batch.item.ResourceAware;
 import org.springframework.core.io.Resource;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
@@ -20,7 +21,9 @@ public class Workout implements ResourceAware {
     public static final String[] CSV_FIELDS = {"title", "startTime", "endTime", "description", "exerciseTitle",
             "superSetId", "exerciseNotes", "setIndex", "setType", "weightKg", "reps", "distanceKm", "durationSeconds", "rpe"};
 
-    private String        genId;
+    @Indexed(unique = true)
+    private String genId;
+
     private String        title;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
